@@ -2,13 +2,12 @@ import OpenAI from "openai";
 import fs from "fs";
 import path from "path";
 import https from "https";
-import type { NextApiRequest } from "next"
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-export async function POST(req: NextApiRequest) {
+export async function POST(req: Request) {
   const { url, streamId } = await req.json();
 
   const tempFilePath = path.join(process.cwd(), `public/voice-notes/${streamId}.webm`);
