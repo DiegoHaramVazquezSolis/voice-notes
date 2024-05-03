@@ -11,7 +11,7 @@ const RequestMicPermission = () => {
       <div className="flex flex-col items-center gap-4">
         <Mic size={32} />
         <p className="text-center">
-          To transcribe your voice notes, we need microspanhone access.
+          To transcribe your voice notes, we need microphone access.
         </p>
       </div>
       <button
