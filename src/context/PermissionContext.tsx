@@ -1,7 +1,7 @@
 'use client'
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
-type PermissionStatus = "prompt" | "denied" | "granted" | "unavailable";
+type PermissionStatus = "loading" | "prompt" | "denied" | "granted" | "unavailable";
 
 interface PermissionContextType {
   permission: PermissionStatus;
@@ -19,7 +19,7 @@ export const usePermission = () => {
 };
 
 export const PermissionProvider: React.FC<{children: ReactNode}> = ({ children }) => {
-  const [permission, setPermission] = useState<PermissionStatus>("prompt");
+  const [permission, setPermission] = useState<PermissionStatus>("loading");
 
   useEffect(() => {
     async function queryMicPermission() {
