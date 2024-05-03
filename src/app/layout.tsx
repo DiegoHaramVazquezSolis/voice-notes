@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 import { PermissionProvider } from "@/context/PermissionContext";
+import { NotesProvider } from "@/context/NotesContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +22,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <PermissionProvider>
-          {children}
+          <NotesProvider>
+            {children}
+          </NotesProvider>
         </PermissionProvider>
       </body>
     </html>
