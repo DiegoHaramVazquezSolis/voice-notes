@@ -8,7 +8,7 @@ const openai = new OpenAI({
 });
 
 export async function POST(req: Request) {
-  const { url, streamId } = await req.json();
+  const { url, streamId, partialTranscription } = await req.json();
 
   const tempFilePath = path.join(process.cwd(), `public/voice-notes/${streamId}.webm`);
 
@@ -28,6 +28,7 @@ export async function POST(req: Request) {
     const transcription = await openai.audio.transcriptions.create({
       file: fileStream,
       model: "whisper-1",
+      prompt: partialTranscription
     });
 
     try {
