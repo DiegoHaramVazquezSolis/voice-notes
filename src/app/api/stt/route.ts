@@ -34,7 +34,6 @@ export async function POST(req: Request) {
     try {
       await fs.promises.unlink(tempFilePath);
     } catch (error) {
-      console.log("\n== error ==\n", error, "\n");
       // File not found
     }
 
