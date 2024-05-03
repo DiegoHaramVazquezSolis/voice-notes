@@ -1,7 +1,7 @@
 'use client'
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
-type PermissionStatus = "checking" | "denied" | "granted" | "unavailable";
+type PermissionStatus = "prompt" | "denied" | "granted" | "unavailable";
 
 interface PermissionContextType {
   permission: PermissionStatus;
@@ -19,7 +19,24 @@ export const usePermission = () => {
 };
 
 export const PermissionProvider: React.FC<{children: ReactNode}> = ({ children }) => {
-  const [permission, setPermission] = useState<PermissionStatus>("checking");
+  const [permission, setPermission] = useState<PermissionStatus>("prompt");
+
+  useEffect(() => {
+    async function queryMicPermission() {
+      if ("MediaRecorder" in window) {
+        try {
+          const res = await navigator.permissions.query({ name: "microphone" });
+          setPermission(res.state);
+        } catch (err) {
+          setPermission("denied");
+        }
+      } else {
+        setPermission("unavailable");
+      }
+    }
+
+    queryMicPermission();
+  }, []);
 
   const requestMicrophonePermission = async () => {
     if ("MediaRecorder" in window) {
@@ -28,6 +45,7 @@ export const PermissionProvider: React.FC<{children: ReactNode}> = ({ children }
           audio: true,
           video: false,
         });
+
         setPermission("granted");
       } catch (err) {
         setPermission("denied");
@@ -35,7 +53,7 @@ export const PermissionProvider: React.FC<{children: ReactNode}> = ({ children }
     } else {
       setPermission("unavailable");
     }
-  };
+  }
 
   return (
     <PermissionContext.Provider value={{ permission, requestMicrophonePermission }}>
