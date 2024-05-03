@@ -1,6 +1,8 @@
 'use client'
 import { useCallback, useEffect, useState, useRef } from 'react';
 
+import { uploadChunk } from '@/services/storage';
+
 const mimeType = "audio/webm";
 
 export default function Home() {
@@ -8,7 +10,7 @@ export default function Home() {
   const mediaRecorder = useRef<MediaRecorder | null>(null);
   const [recordingStatus, setRecordingStatus] = useState<"recording" | "inactive">("inactive");
   const [stream, setStream] = useState<MediaStream | null>(null);
-  const [audioChunks, setAudioChunks] = useState<Blob[]>([]);
+  const [transcription, setTranscription] = useState("");
 
   const getMicrophonePermission = useCallback(async () => {
     if ("MediaRecorder" in window) {
@@ -47,19 +49,38 @@ export default function Home() {
       if (typeof event.data === "undefined") return;
       if (event.data.size === 0) return;
 
-      // Unique stream id event.srcElement.stream.id
-      // chunk id: localAudioChunks.length
       localAudioChunks.push(event.data);
+
+      const eventTarget = event.target as MediaRecorder;
+
+      try {
+        // Not actually chunks, but the full audio every time. Two reasons for that:
+        // 1. It gets a better transcription
+        // 2. Couldn't find a way to handle each chunk independently
+        const chunkUrl = await uploadChunk(localAudioChunks, eventTarget.stream.id);
+
+        const response = await fetch('/api/stt', {
+          method: 'POST',
+          body: JSON.stringify({
+            url: chunkUrl,
+            streamId: eventTarget.stream.id,
+          }),
+        });
+
+        if (response.status === 200) {
+          const { transcription } = await response.json();
+          setTranscription(transcription);
+        }
+      } catch (error) {
+      }
     };
 
-    // Generate chunks for (near) real-time transcription
+    // Request data every certain time to get (near) real-time transcription
     setInterval(() => {
-      if (mediaRecorder.current.state !== "inactive") {
+      if (mediaRecorder.current && mediaRecorder.current.state !== "inactive") {
         mediaRecorder.current.requestData();
       }
-    }, 1000);
-
-    setAudioChunks(localAudioChunks);
+    }, 750);
   };
 
   const stopRecording = () => {
@@ -100,6 +121,9 @@ export default function Home() {
         :
         null
       }
+      <h1 className="text-slate-50 text-2xl">
+        {transcription}
+      </h1>
     </main>
   );
 }
