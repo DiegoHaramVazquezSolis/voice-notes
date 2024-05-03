@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Mic } from 'lucide-react';
 
+import { useNotes } from '@/context/NotesContext';
 import { uploadChunk } from '@/services/storage';
 
 const mimeType = "audio/webm";
@@ -8,7 +9,8 @@ const mimeType = "audio/webm";
 const CreateNote = () => {
   const mediaRecorder = useRef<MediaRecorder | null>(null);
   const [recordingStatus, setRecordingStatus] = useState<"recording" | "inactive">("inactive");
-  const [transcription, setTranscription] = useState("");
+  const [transcription, setTranscription] = useState("nuin");
+  const { addNote } = useNotes();
 
   const startRecording = async () => {
     setRecordingStatus("recording");
@@ -96,7 +98,15 @@ const CreateNote = () => {
             null
           }
           {transcription && !isRecording ?
-            <textarea className="bg-transparent border-slate-800 border-2 rounded-lg p-2" cols={50} rows={10} value={transcription} onChange={(e) => setTranscription(e.target.value)} />
+            <div className="flex flex-col gap-2 items-start">
+              <textarea className="bg-transparent border-slate-800 border-2 rounded-lg p-2" cols={50} rows={10} value={transcription} onChange={(e) => setTranscription(e.target.value)} />
+              <button
+                className="flex flex-col items-center gap-4 py-2.5  rounded-md text-slate-950 bg-slate-50 hover:bg-slate-50/80 transition-colors w-full"
+                onClick={() => addNote(transcription)}
+              >
+                Save note
+              </button>
+            </div>
             :
             null
           }
