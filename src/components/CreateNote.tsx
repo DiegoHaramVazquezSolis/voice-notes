@@ -47,7 +47,7 @@ const CreateNote = () => {
         // 2. Couldn't find a way to handle each chunk independently
         const chunkUrl = await uploadChunk(localAudioChunks, eventTarget.stream.id);
 
-        const response = await fetch("/api/stt", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/stt`, {
           method: "POST",
           body: JSON.stringify({
             url: chunkUrl,
@@ -85,7 +85,7 @@ const CreateNote = () => {
 
   const saveNote = async () => {
     const loadingToast = toast.loading("Saving note...");
-    const response = await fetch("/api/name-note", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/name-note`, {
       method: "POST",
       body: JSON.stringify({
         content: transcription
