@@ -35,7 +35,7 @@ const NotesGrid = () => {
       {notes.map((note) => (
         <div key={note.id} className="break-inside-avoid mb-4 rounded-lg shadow-lg p-4 border-2 border-slate-800">
           <div className="flex flex-col gap-2 mb-8">
-            <h2 className="text-xl font-bold">
+            <h2 className="text-xl font-bold line-clamp-1">
               {note.title}
             </h2>
             <p className="text-sm line-clamp-3">
