@@ -33,7 +33,7 @@ const NotesGrid = () => {
   }
 
   return (
-    <div className="columns-1 sm:columns-2 md:columns-3 gap-4">
+    <div className="columns-1 sm:columns-2 md:columns-3 gap-4 mb-4">
       {notes.map((note: Note) => (
         <NoteCard
           key={`note-${note.id}`}
