@@ -7,8 +7,6 @@ import { useNotes } from "@/context/NotesContext";
 import { uploadChunk } from "@/services/storage";
 import { Button } from "@/components/ui/Button";
 
-const mimeType = "audio/webm";
-
 const CreateNote = () => {
   const mediaRecorder = useRef<MediaRecorder | null>(null);
   const [recordingStatus, setRecordingStatus] = useState<"recording" | "inactive">("inactive");
@@ -24,9 +22,16 @@ const CreateNote = () => {
       video: false,
     });
 
-    const media = new MediaRecorder(streamData, {
-      mimeType,
-    });
+    let options: MediaRecorderOptions = {};
+    if (MediaRecorder.isTypeSupported('video/webm; codecs=vp9')) {
+      options = { mimeType: 'video/webm; codecs=vp9' };
+    } else  if (MediaRecorder.isTypeSupported('video/webm')) {
+      options = { mimeType: 'video/webm' };
+    } else if (MediaRecorder.isTypeSupported('video/mp4')) {
+      options = { mimeType: 'video/mp4', videoBitsPerSecond : 100000 };
+    }
+
+    const media = new MediaRecorder(streamData, options);
 
     mediaRecorder.current = media;
 
@@ -72,7 +77,7 @@ const CreateNote = () => {
       } else {
         clearInterval(interval);
       }
-    }, 1000);
+    }, 750);
   };
 
   const stopRecording = () => {
