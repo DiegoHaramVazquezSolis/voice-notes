@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mic } from 'lucide-react';
+import { Check, Mic } from 'lucide-react';
 
 import { usePermission } from '@/context/PermissionContext';
 import { Button } from '@/components/ui/Button';
@@ -16,6 +16,7 @@ const RequestMicPermission = () => {
         </p>
       </div>
       <Button onClick={requestMicrophonePermission}>
+        <Check />
         Allow
       </Button>
     </div>

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Mic } from 'lucide-react';
+import { Mic, Save } from 'lucide-react';
 
 import { useNotes } from '@/context/NotesContext';
 import { uploadChunk } from '@/services/storage';
@@ -102,6 +102,7 @@ const CreateNote = () => {
             <div className="flex flex-col gap-2 items-start">
               <textarea className="bg-transparent border-slate-800 border-2 rounded-lg p-2" cols={50} rows={10} value={transcription} onChange={(e) => setTranscription(e.target.value)} />
               <Button onClick={() => addNote(transcription)}>
+                <Save />
                 Save note
               </Button>
             </div>
