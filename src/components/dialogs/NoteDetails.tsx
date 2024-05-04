@@ -21,7 +21,7 @@ const NoteDetails = ({ open, onClose, note }: NoteDetailsProps) => {
       <div
         className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
         onClick={closeDialog}>
-        <div className="flex flex-col gap-4 p-4 rounded-md bg-slate-100 dark:bg-slate-950 border-2 border-slate-800 max-w-sm">
+        <div className="flex flex-col gap-4 p-4 rounded-md bg-slate-100 dark:bg-black border-2 border-slate-800 max-w-sm">
           <h2 className="text-xl font-bold">{note.title}</h2>
           <p className="text-sm whitespace-pre-line">{note.content}</p>
           <div className="flex items-center justify-between">
