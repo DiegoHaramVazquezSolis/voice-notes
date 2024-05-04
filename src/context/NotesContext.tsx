@@ -8,7 +8,7 @@ import { useAuth } from "@/context/AuthContext";
 
 interface NotesContextType {
   notes: Note[] | undefined;
-  addNote: (content: string, title?: string) => void;
+  addNote: (uid: string, content: string, title?: string) => void;
 }
 
 const NotesContext = createContext<NotesContextType | undefined>(undefined);
