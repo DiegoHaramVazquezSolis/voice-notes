@@ -81,10 +81,22 @@ const CreateNote = () => {
     }
   };
 
-  const saveNote = () => {
-    addNote(transcription);
+  const saveNote = async () => {
+    const loadingToast = toast.loading("Saving note...");
+    const response = await fetch("/api/name-note", {
+      method: "POST",
+      body: JSON.stringify({
+        content: transcription
+      }),
+    });
+
+    const { title } = await response.json();
+
+    addNote(transcription, title);
+
     setTranscription("");
 
+    toast.dismiss(loadingToast);
     toast.success("Note saved!");
   };
 
