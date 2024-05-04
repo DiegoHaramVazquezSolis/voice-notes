@@ -4,7 +4,7 @@ import { LoaderCircle, Notebook } from "lucide-react";
 
 import { useNotes } from "@/context/NotesContext";
 import { CreateNoteButton } from "@/components/CreateNoteButton";
-import { NoteCard } from "./NoteCard";
+import { NoteCard } from "@/components/NoteCard";
 import { Note } from "@/types";
 
 const NotesGrid = () => {
