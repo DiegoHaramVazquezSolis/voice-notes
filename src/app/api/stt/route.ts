@@ -8,7 +8,7 @@ const openai = new OpenAI({
 });
 
 export async function POST(req: Request) {
-  const { url, streamId, partialTranscription } = await req.json();
+  const { url, streamId, partialTranscription, type } = await req.json();
 
   const buffer: Buffer = await new Promise((resolve, reject) => {
     https.get(url, (res) => {
@@ -20,7 +20,7 @@ export async function POST(req: Request) {
   });
 
   try {
-    const file = await toFile(buffer, `${streamId}.webm`, { type: "audio/webm" });
+    const file = await toFile(buffer, `${streamId}.${type.split("/")[1]}`, { type });
 
     const transcription = await openai.audio.transcriptions.create({
       file,

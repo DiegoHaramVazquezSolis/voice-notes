@@ -23,12 +23,12 @@ const CreateNote = () => {
     });
 
     let options: MediaRecorderOptions = {};
-    if (MediaRecorder.isTypeSupported('video/webm; codecs=vp9')) {
-      options = { mimeType: 'video/webm; codecs=vp9' };
-    } else  if (MediaRecorder.isTypeSupported('video/webm')) {
-      options = { mimeType: 'video/webm' };
-    } else if (MediaRecorder.isTypeSupported('video/mp4')) {
-      options = { mimeType: 'video/mp4', videoBitsPerSecond : 100000 };
+    if (MediaRecorder.isTypeSupported('audio/webm; codecs=vp9')) {
+      options = { mimeType: 'audio/webm; codecs=vp9' };
+    } else  if (MediaRecorder.isTypeSupported('audio/webm')) {
+      options = { mimeType: 'audio/webm' };
+    } else if (MediaRecorder.isTypeSupported('audio/mp4')) {
+      options = { mimeType: 'audio/mp4', videoBitsPerSecond : 100000 };
     }
 
     const media = new MediaRecorder(streamData, options);
@@ -58,6 +58,7 @@ const CreateNote = () => {
             url: chunkUrl,
             streamId: eventTarget.stream.id,
             partialTranscription: transcription,
+            type: options.mimeType,
           }),
         });
 
