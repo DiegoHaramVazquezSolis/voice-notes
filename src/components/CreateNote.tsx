@@ -113,13 +113,13 @@ const CreateNote = () => {
     <div className="flex flex-col md:flex-row justify-center items-center h-screen w-screen gap-8">
       <div className="flex justify-center items-center w-1/2">
         <button
-          className={`bg-slate-50 hover:bg-slate-50/90 transition-all ease-in-out duration-500 h-[20vh] w-[20vh] ${buttonStyle} rounded-full flex items-center justify-center`}
+          className={`bg-slate-50 hover:bg-slate-50/90 shadow-lg hover:shadow-md active:shadow transition-all ease-in-out duration-500 h-[20vh] w-[20vh] ${buttonStyle} rounded-full flex items-center justify-center`}
           onClick={isRecording ? stopRecording : startRecording}>
           <Mic className="text-slate-950" size={48} />
         </button>
       </div>
       <div className="w-1/2">
-        <div className="flex items-center mx-auto p-4 shadow-lg rounded-lg text-center">
+        <div className="flex items-center mx-auto p-4 rounded-lg text-center">
           {transcription && isRecording ?
             <p>{transcription}</p>
             :

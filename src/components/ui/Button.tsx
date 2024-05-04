@@ -11,7 +11,7 @@ const Button = ({ children, onClick, fullWidth = true }: ButtonProps) => {
 
   return (
     <button
-      className={`flex items-center justify-center gap-2 py-2.5 px-4 rounded-md text-slate-950 bg-slate-50 hover:bg-slate-50/80 transition-colors ${buttonStyle}`}
+      className={`flex items-center shadow-md hover:shadow-sm active:shadow transition-all ease-in-out duration-500 justify-center gap-2 py-2.5 px-4 rounded-md text-slate-950 bg-slate-50 hover:bg-slate-50/80 ${buttonStyle}`}
       onClick={onClick}
     >
       {children}
