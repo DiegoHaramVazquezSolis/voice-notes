@@ -6,6 +6,7 @@ import "./globals.css";
 
 import { PermissionProvider } from "@/context/PermissionContext";
 import { NotesProvider } from "@/context/NotesContext";
+import { AuthProvider } from "@/context/AuthContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,11 +23,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <PermissionProvider>
-          <NotesProvider>
-            {children}
-          </NotesProvider>
-        </PermissionProvider>
+        <AuthProvider>
+          <PermissionProvider>
+            <NotesProvider>
+              {children}
+            </NotesProvider>
+          </PermissionProvider>
+        </AuthProvider>
         <Toaster />
       </body>
     </html>
