@@ -1,8 +1,7 @@
-import OpenAI from "openai";
-import fs from "fs";
-import path from "path";
+import OpenAI, { toFile } from "openai";
 import https from "https";
 import { NextRequest, NextResponse } from "next/server";
+import { Buffer } from "buffer";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -11,32 +10,23 @@ const openai = new OpenAI({
 export async function POST(req: Request) {
   const { url, streamId, partialTranscription } = await req.json();
 
-  const tempFilePath = path.join(`/tmp/${streamId}.webm`);
-
-  await fs.promises.mkdir(path.dirname(tempFilePath), { recursive: true });
-
-  await new Promise((resolve, reject) => {
-    const fileStream = fs.createWriteStream(tempFilePath);
-    https.get(url, function(response) {
-      response.pipe(fileStream);
-      response.on('end', resolve);
-      response.on('error', reject);
+  const buffer: Buffer = await new Promise((resolve, reject) => {
+    https.get(url, (res) => {
+      const data: Buffer[] = [];
+      res.on("data", chunk => data.push(chunk));
+      res.on("end", () => resolve(Buffer.concat(data)));
+      res.on("error", reject);
     });
   });
 
-  const fileStream = fs.createReadStream(tempFilePath);
   try {
+    const file = await toFile(buffer, `${streamId}.webm`, { type: "audio/webm" });
+
     const transcription = await openai.audio.transcriptions.create({
-      file: fileStream,
+      file,
       model: "whisper-1",
       prompt: partialTranscription
     });
-
-    try {
-      await fs.promises.unlink(tempFilePath);
-    } catch (error) {
-      // File not found
-    }
 
     return Response.json({ transcription: transcription.text }, { status: 200 });
   } catch (error) {
@@ -45,7 +35,7 @@ export async function POST(req: Request) {
 }
 
 export const OPTIONS = async (request: NextRequest) => {
-  return new NextResponse('', {
+  return new NextResponse("", {
     status: 200
   })
 }
