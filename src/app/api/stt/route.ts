@@ -11,7 +11,7 @@ const openai = new OpenAI({
 export async function POST(req: Request) {
   const { url, streamId, partialTranscription } = await req.json();
 
-  const tempFilePath = path.join(process.cwd(), `public/voice-notes/${streamId}.webm`);
+  const tempFilePath = path.join(process.cwd(), `/tmp/${streamId}.webm`);
 
   await fs.promises.mkdir(path.dirname(tempFilePath), { recursive: true });
 
