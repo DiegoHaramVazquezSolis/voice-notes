@@ -16,9 +16,7 @@ const NoteAccessControl = () => {
       return <RequestMicPermission />;
 
     case "granted":
-      return (
-        <CreateNote />
-      );
+      return <CreateNote />;
 
     case "denied":
       // Todo: Provide instructions to allow access if denied previously
