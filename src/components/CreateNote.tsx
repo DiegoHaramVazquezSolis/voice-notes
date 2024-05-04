@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Mic, Save } from "lucide-react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation"
 
 import { useNotes } from "@/context/NotesContext";
 import { uploadChunk } from "@/services/storage";
@@ -13,6 +14,7 @@ const CreateNote = () => {
   const [recordingStatus, setRecordingStatus] = useState<"recording" | "inactive">("inactive");
   const [transcription, setTranscription] = useState("");
   const { addNote } = useNotes();
+  const router = useRouter();
 
   const startRecording = async () => {
     setRecordingStatus("recording");
@@ -97,7 +99,12 @@ const CreateNote = () => {
     setTranscription("");
 
     toast.dismiss(loadingToast);
-    toast.success("Note saved!");
+    toast.success("Note saved!", {
+      action: {
+        label: "See my notes",
+        onClick: () => router.push("/"),
+      }
+    });
   };
 
   const isRecording = recordingStatus === "recording"
