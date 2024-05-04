@@ -42,8 +42,7 @@ export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     }
   }, [user]);
 
-  const addNote = (content: string, title: string = "New note") => {
-    const uid = user?.uid;
+  const addNote = (uid: string, content: string, title: string = "New note") => {
     const notesRef = ref(database, `usersNotes/${uid}`);
     const newNoteRef = push(notesRef);
     set(newNoteRef, {

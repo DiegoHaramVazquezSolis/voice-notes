@@ -93,8 +93,10 @@ const CreateNote = () => {
   const saveNote = async () => {
     const loadingToast = toast.loading("Saving note...");
 
-    if (!user) {
-      await signIn();
+    let uid = user?.uid;
+    if (!uid) {
+      const { user } = await signIn();
+      uid = user.uid;
     }
 
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/name-note`, {
@@ -106,7 +108,7 @@ const CreateNote = () => {
 
     const { title } = await response.json();
 
-    addNote(transcription, title);
+    addNote(uid, transcription, title);
 
     setTranscription("");
 
