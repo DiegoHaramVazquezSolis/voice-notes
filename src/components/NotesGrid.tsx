@@ -1,14 +1,16 @@
 'use client'
-import React from "react";
+import React, { useState } from "react";
 import { LoaderCircle, Notebook } from "lucide-react";
 
 import { useNotes } from "@/context/NotesContext";
 import { CreateNoteButton } from "@/components/CreateNoteButton";
 import { NoteCard } from "@/components/NoteCard";
 import { Note } from "@/types";
+import { NoteDetails } from "./dialogs/NoteDetails";
 
 const NotesGrid = () => {
   const { notes } = useNotes();
+  const [selectedNote, setSelectedNote] = useState<Note | null>(null);
 
   if (!notes) {
     return (
@@ -38,8 +40,14 @@ const NotesGrid = () => {
         <NoteCard
           key={`note-${note.id}`}
           {...note}
+          onClick={() => setSelectedNote(note)}
         />
       ))}
+      <NoteDetails
+        open={selectedNote !== null}
+        onClose={() => setSelectedNote(null)}
+        note={selectedNote}
+      />
     </div>
   );
 };
