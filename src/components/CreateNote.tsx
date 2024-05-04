@@ -1,16 +1,16 @@
-import React, { useRef, useState } from 'react';
-import { Mic, Save } from 'lucide-react';
+import React, { useRef, useState } from "react";
+import { Mic, Save } from "lucide-react";
 
-import { useNotes } from '@/context/NotesContext';
-import { uploadChunk } from '@/services/storage';
-import { Button } from '@/components/ui/Button';
+import { useNotes } from "@/context/NotesContext";
+import { uploadChunk } from "@/services/storage";
+import { Button } from "@/components/ui/Button";
 
 const mimeType = "audio/webm";
 
 const CreateNote = () => {
   const mediaRecorder = useRef<MediaRecorder | null>(null);
   const [recordingStatus, setRecordingStatus] = useState<"recording" | "inactive">("inactive");
-  const [transcription, setTranscription] = useState("nuin");
+  const [transcription, setTranscription] = useState("");
   const { addNote } = useNotes();
 
   const startRecording = async () => {
@@ -44,8 +44,8 @@ const CreateNote = () => {
         // 2. Couldn't find a way to handle each chunk independently
         const chunkUrl = await uploadChunk(localAudioChunks, eventTarget.stream.id);
 
-        const response = await fetch('/api/stt', {
-          method: 'POST',
+        const response = await fetch("/api/stt", {
+          method: "POST",
           body: JSON.stringify({
             url: chunkUrl,
             streamId: eventTarget.stream.id,
@@ -106,6 +106,11 @@ const CreateNote = () => {
                 Save note
               </Button>
             </div>
+            :
+            null
+          }
+          {!transcription && !isRecording ?
+            <p>Press the button and start talking to create a note.</p>
             :
             null
           }
