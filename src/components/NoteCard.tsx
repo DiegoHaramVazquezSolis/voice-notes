@@ -1,10 +1,15 @@
 import { Note } from '@/types';
 
-const NoteCard = ({ title, content, timestamp }: Note) => {
+interface NoteCardProps extends Note {
+  onClick: () => void;
+}
+
+const NoteCard = ({ title, content, timestamp, onClick }: NoteCardProps) => {
   return (
     <div
-      className="bg-slate-100 dark:bg-transparent break-inside-avoid mb-4 rounded-lg shadow-lg p-4 border-2 border-slate-800"
+      className="bg-slate-100 dark:bg-transparent break-inside-avoid mb-4 rounded-lg shadow-lg p-4 border-2 border-slate-800 cursor-pointer"
       title={title}
+      onClick={onClick}
     >
       <div className="flex flex-col gap-2 mb-8">
         <h2 className="text-xl font-bold line-clamp-1">
