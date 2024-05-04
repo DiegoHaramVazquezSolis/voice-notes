@@ -24,7 +24,7 @@ const NotesGrid = () => {
   if (notes.length === 0) {
     return (
       <div className="grow flex flex-col items-center justify-center gap-8">
-        <div className="flex flex-col items-center gap-4">
+        <div className="flex flex-col items-center gap-4 p-4 text-center">
           <Notebook size={48} />
           You don&apos;t have any note yet, create your first one!
         </div>
