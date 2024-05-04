@@ -2,6 +2,7 @@ import OpenAI from "openai";
 import fs from "fs";
 import path from "path";
 import https from "https";
+import { NextRequest, NextResponse } from "next/server";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -41,4 +42,10 @@ export async function POST(req: Request) {
   } catch (error) {
     return Response.json({ error: "Invalid request" }, { status: 400 });
   }
+}
+
+export const OPTIONS = async (request: NextRequest) => {
+  return new NextResponse('', {
+    status: 200
+  })
 }
