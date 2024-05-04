@@ -3,7 +3,7 @@ import { Note } from '@/types';
 const NoteCard = ({ id, title, content, timestamp }: Note) => {
   return (
     <div
-      className="break-inside-avoid mb-4 rounded-lg shadow-lg p-4 border-2 border-slate-800"
+      className="bg-slate-100 dark:bg-transparent break-inside-avoid mb-4 rounded-lg shadow-lg p-4 border-2 border-slate-800"
       title={title}
     >
       <div className="flex flex-col gap-2 mb-8">
