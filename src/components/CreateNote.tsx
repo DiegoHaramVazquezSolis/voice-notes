@@ -65,7 +65,7 @@ const CreateNote = () => {
     };
 
     // Request data every certain time to get (near) real-time transcription
-    let interval: number | undefined = undefined;
+    let interval: ReturnType<typeof setInterval> | undefined = undefined;
     interval = setInterval(() => {
       if (mediaRecorder.current && mediaRecorder.current.state !== "inactive") {
         mediaRecorder.current.requestData();

@@ -25,7 +25,7 @@ export const PermissionProvider: React.FC<{children: ReactNode}> = ({ children }
     async function queryMicPermission() {
       if ("MediaRecorder" in window) {
         try {
-          const res = await navigator.permissions.query({ name: "microphone" });
+          const res = await navigator.permissions.query({ name: "microphone" as PermissionName });
           setPermission(res.state);
         } catch (err) {
           setPermission("denied");
