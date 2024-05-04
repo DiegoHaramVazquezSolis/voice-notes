@@ -1,6 +1,6 @@
 import { Note } from '@/types';
 
-const NoteCard = ({ id, title, content, timestamp }: Note) => {
+const NoteCard = ({ title, content, timestamp }: Note) => {
   return (
     <div
       className="bg-slate-100 dark:bg-transparent break-inside-avoid mb-4 rounded-lg shadow-lg p-4 border-2 border-slate-800"
