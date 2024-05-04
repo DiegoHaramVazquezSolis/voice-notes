@@ -7,7 +7,7 @@ import { database } from "@/services/firebase";
 
 interface NotesContextType {
   notes: Note[] | undefined;
-  addNote: (content: string) => void;
+  addNote: (content: string, title?: string) => void;
 }
 
 const NotesContext = createContext<NotesContextType | undefined>(undefined);
