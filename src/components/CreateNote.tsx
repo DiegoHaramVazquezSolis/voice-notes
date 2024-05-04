@@ -4,8 +4,10 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation"
 
 import { useNotes } from "@/context/NotesContext";
+import { useAuth } from "@/context/AuthContext";
 import { uploadChunk } from "@/services/storage";
 import { Button } from "@/components/ui/Button";
+import { signIn } from "@/services/auth";
 
 const CreateNote = () => {
   const mediaRecorder = useRef<MediaRecorder | null>(null);
@@ -13,6 +15,7 @@ const CreateNote = () => {
   const [transcription, setTranscription] = useState("");
   const { addNote } = useNotes();
   const router = useRouter();
+  const { user } = useAuth();
 
   const startRecording = async () => {
     setRecordingStatus("recording");
@@ -47,9 +50,7 @@ const CreateNote = () => {
       const eventTarget = event.target as MediaRecorder;
 
       try {
-        // Not actually chunks, but the full audio every time. Two reasons for that:
-        // 1. It gets a better transcription
-        // 2. Couldn't find a way to handle each chunk independently
+        // Not actually chunks, but the full audio every time
         const chunkUrl = await uploadChunk(localAudioChunks, eventTarget.stream.id);
 
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/stt`, {
@@ -91,6 +92,11 @@ const CreateNote = () => {
 
   const saveNote = async () => {
     const loadingToast = toast.loading("Saving note...");
+
+    if (!user) {
+      await signIn();
+    }
+
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/name-note`, {
       method: "POST",
       body: JSON.stringify({
