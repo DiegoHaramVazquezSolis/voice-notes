@@ -15,8 +15,7 @@ const RequestMicPermission = () => {
           To transcribe your voice notes, we need microphone access.
         </p>
       </div>
-      <Button
-        onClick={requestMicrophonePermission}>
+      <Button onClick={requestMicrophonePermission}>
         Allow
       </Button>
     </div>

@@ -101,9 +101,7 @@ const CreateNote = () => {
           {transcription && !isRecording ?
             <div className="flex flex-col gap-2 items-start">
               <textarea className="bg-transparent border-slate-800 border-2 rounded-lg p-2" cols={50} rows={10} value={transcription} onChange={(e) => setTranscription(e.target.value)} />
-              <Button
-                onClick={() => addNote(transcription)}
-              >
+              <Button onClick={() => addNote(transcription)}>
                 Save note
               </Button>
             </div>
