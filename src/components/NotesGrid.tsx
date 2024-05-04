@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { LoaderCircle, Notebook } from "lucide-react";
 
 import { useNotes } from "@/context/NotesContext";
-import { CreateNoteButton } from "@/components/CreateNoteButton";
 import { NoteCard } from "@/components/NoteCard";
 import { Note } from "@/types";
 import { NoteDetails } from "./dialogs/NoteDetails";
@@ -34,7 +33,7 @@ const NotesGrid = () => {
   }
 
   return (
-    <div className="grow columns-1 sm:columns-2 md:columns-3 gap-4 mb-4">
+    <div className="grow columns-1 sm:columns-2 md:columns-3 gap-4 mb-4 p-2 sm:p-0">
       {notes.map((note: Note) => (
         <NoteCard
           key={`note-${note.id}`}

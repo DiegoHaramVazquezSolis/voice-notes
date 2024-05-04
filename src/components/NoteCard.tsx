@@ -15,7 +15,7 @@ const NoteCard = ({ title, content, timestamp, onClick }: NoteCardProps) => {
         <h2 className="text-xl font-bold line-clamp-1">
           {title}
         </h2>
-        <p className="text-sm line-clamp-3">
+        <p className="text-sm line-clamp-2 md:line-clamp-3">
           {content}
         </p>
       </div>
