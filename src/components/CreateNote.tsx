@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { Mic, Save } from "lucide-react";
+import { toast } from "sonner";
 
 import { useNotes } from "@/context/NotesContext";
 import { uploadChunk } from "@/services/storage";
@@ -80,6 +81,13 @@ const CreateNote = () => {
     }
   };
 
+  const saveNote = () => {
+    addNote(transcription);
+    setTranscription("");
+
+    toast.success("Note saved!");
+  };
+
   const isRecording = recordingStatus === "recording"
   const buttonStyle = isRecording ? "animate-pulse scale-125" : "scale-100"
   return (
@@ -101,7 +109,7 @@ const CreateNote = () => {
           {transcription && !isRecording ?
             <div className="flex flex-col gap-2 items-start">
               <textarea className="bg-transparent border-slate-800 border-2 rounded-lg p-2" cols={50} rows={10} value={transcription} onChange={(e) => setTranscription(e.target.value)} />
-              <Button onClick={() => addNote(transcription)}>
+              <Button onClick={saveNote}>
                 <Save />
                 Save note
               </Button>
