@@ -12,14 +12,14 @@ type Note = {
 };
 
 interface NotesContextType {
-  notes: Note[];
+  notes: Note[] | undefined;
   addNote: (content: string) => void;
 }
 
 const NotesContext = createContext<NotesContextType | undefined>(undefined);
 
 export const NotesProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [notes, setNotes] = useState<Note[]>([]);
+  const [notes, setNotes] = useState<Note[] | undefined>(undefined);
 
   useEffect(() => {
     const notesRef = ref(database, "notes/");
