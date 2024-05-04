@@ -2,14 +2,8 @@
 import React, { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { ref, onValue, push, set, serverTimestamp } from "firebase/database";
 
+import { Note } from '@/types';
 import { database } from "@/services/firebase";
-
-type Note = {
-  id: string;
-  content: string;
-  title: string;
-  timestamp: number;
-};
 
 interface NotesContextType {
   notes: Note[] | undefined;
